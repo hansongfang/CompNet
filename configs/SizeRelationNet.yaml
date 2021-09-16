@@ -6,7 +6,7 @@ DATA:
       USE_WEIGHT: True
     TEST:
       IMG_DIR: "./data/test/bed"
-      PAIR_LIST: "test_bed_allpairs_size_relation.pickle"
+      PAIR_LIST: "test_bed_size_relation_pairs.pickle"
   NUM_WORKERS: 4
 MODEL:
   CHOICE: 'SizeRelationNet'
