@@ -1,0 +1,247 @@
+<!--1. slider 2. canvas position 3. canvas style 4. create canvas-->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{obj_name}</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="https://unpkg.com/bulmaswatch/flatly/bulmaswatch.min.css">
+		<style>
+			body {{
+				font-size: 1.5em;
+				line-height: 1.5;
+				/*color: black;*/
+			}}
+			strong, table th {{
+				/*color: black;*/
+			}}
+
+			.image {{
+				display: flex;
+			}}
+
+            #info {{
+                position: absolute;
+                top: 0px;
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+                text-align: center;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                pointer-events: none;
+                z-index: 1;
+            }}
+
+			#canvases {{
+				overflow: visible;
+				white-space:nowrap;
+				overflow-x: scroll;
+			}}
+			#canvases .slide {{
+				display: inline-block;
+				margin-bottom: 200px;
+				margin-top: 100px;
+			}}
+
+		</style>
+	</head>
+	<body>
+
+		{canvases_string}
+
+		<div id="info">
+			Prediction result of <strong>{obj_name}</strong> with model <strong>{model_name}</strong><br>
+			Ground truth is at the most right.
+		</div>
+		<script type="module">
+            import * as THREE from "https://cdn.jsdelivr.net/npm/three@v0.108.0/build/three.module.js";
+
+			import {{ PLYLoader }} from 'https://cdn.jsdelivr.net/npm/three@v0.108.0/examples/jsm/loaders/PLYLoader.js';
+
+			import {{TrackballControls}} from "https://cdn.jsdelivr.net/npm/three@v0.108.0/examples/jsm/controls/TrackballControls.js";
+
+			// parameters
+			var files = [{ply_list}];
+			var obj_names = [{ply_name_list}];
+
+			//Shared across canvas
+			var index = 0;
+			var views = [];
+			var camera, controls, cameraTarget, scene, stats;
+			var loader = new PLYLoader();
+
+			init();
+			setTimeout(animate, 1000);
+
+			function View( canvas, canvasWidth, canvasHeight, canvasLeft, canvasBottom, obj_name) {{
+
+				canvas.position ='absolute';
+				canvas.left = canvasLeft;
+				canvas.bottom = canvasBottom;
+				canvas.width = canvasWidth;
+				canvas.height = canvasHeight;
+
+				this.renderer = new THREE.WebGLRenderer( {{ antialias: true, canvas: canvas}} );
+				this.renderer.setSize( canvas.width, canvas.height );
+				this.renderer.gammaInput = true;
+				this.renderer.gammaOutput = true;
+				this.renderer.shadowMap.enabled = true;
+
+				this.obj_name = obj_name;
+
+				this.renderView = function () {{
+					for(var i=0; i<obj_names.length; i++){{
+						if (obj_names[i] !== this.obj_name){{
+							var mesh = scene.getObjectByName(obj_names[i]);
+							mesh.visible = false;
+						}}
+						var mesh = scene.getObjectByName(this.obj_name);
+						mesh.visible = true;
+						var mesh = scene.getObjectByName('plane');
+						mesh.visible = true;
+					}}
+
+					this.renderer.render( scene, camera );
+
+				}};
+
+
+				this.createControls = function( camera ){{
+					this.controls = new TrackballControls( camera, this.renderer.domElement );
+
+					this.controls.rotateSpeed = 1.0;
+					this.controls.zoomSpeed = 1.2;
+					this.controls.panSpeed = 0.8;
+
+					this.controls.keys = [ 65, 83, 68 ];
+
+				}}
+			}}
+
+			function baseName(str)
+			{{
+			   var base = new String(str).substring(str.lastIndexOf('/') + 1);
+				if(base.lastIndexOf(".") != -1)
+					base = base.substring(0, base.lastIndexOf("."));
+			   return base;
+			}}
+
+			function loadNextFile() {{
+
+			  if (index > files.length - 1) return;
+			  loader.load(files[index], function(geo){{
+				var material = new THREE.MeshStandardMaterial( {{color: 0xffffff,
+																emissive: 0x33333,
+																flatShading: true,
+																roughness:0.85,
+																vertexColors:THREE.VertexColors,
+																side: THREE.DoubleSide }} );
+				geo.computeBoundingBox();
+				geo.computeVertexNormals();
+
+				var mesh = new THREE.Mesh(geo, material);
+				mesh.name = baseName(files[index]);
+				mesh.receiveShadow = true;
+				mesh.castShadow = true;
+				scene.add(mesh);
+
+				index ++;
+				loadNextFile();
+			  }});
+			}}
+
+			function init() {{
+				var unitHeight = window.innerHeight / 2;
+				var unitWidth = window.innerWidth / 4;
+
+				for(var i=0; i< files.length; i++){{
+					var canvas = document.getElementById('canvas'+(i+1).toString(10));
+					views.push(new View( canvas, unitWidth, unitHeight, unitWidth * i, unitHeight, obj_names[i]));
+
+				}}
+
+				// common camera scene  other meshes
+				camera = new THREE.PerspectiveCamera( 60, unitWidth/unitHeight, 0.1, 100.0 );
+				camera.position.set( 0, 0.5, 2.2 );
+				cameraTarget = new THREE.Vector3( 0, 0, 0 );
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xf0f0f0 );
+				scene.fog = new THREE.Fog( 0xf0f0f0, 1, 15 );
+
+				// Ground
+				var plane = new THREE.Mesh(
+					new THREE.PlaneBufferGeometry( 100, 100 ),
+					new THREE.MeshPhongMaterial( {{ color: 0xbbbbbb, specular: 0x101010 }} )
+				);
+				plane.name = 'plane';
+				plane.rotation.x = - Math.PI / 2;
+				plane.position.y = - 1.1;
+				scene.add( plane );
+				// plane.receiveShadow = true;
+
+				loadNextFile();
+
+				// Lights
+				scene.add( new THREE.HemisphereLight( 0x555555, 0x111111 ) );
+				addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
+				addShadowedLight( 0.5, 1, - 1, 0x333333, 1 );
+
+				// resize
+				// window.addEventListener( 'resize', onWindowResize, false );
+				for ( var i = 0; i < views.length; ++ i ) {{
+					views[ i ].createControls(camera);
+				}}
+
+			}}
+
+			function addShadowedLight( x, y, z, color, intensity ) {{
+
+				var directionalLight = new THREE.DirectionalLight( color, intensity );
+				directionalLight.position.set( x, y, z );
+				scene.add( directionalLight );
+
+				directionalLight.castShadow = true;
+
+				var d = 1;
+				directionalLight.shadow.camera.left = - d;
+				directionalLight.shadow.camera.right = d;
+				directionalLight.shadow.camera.top = d;
+				directionalLight.shadow.camera.bottom = - d;
+
+				directionalLight.shadow.camera.near = 1;
+				directionalLight.shadow.camera.far = 4;
+
+				directionalLight.shadow.mapSize.width = 1024;
+				directionalLight.shadow.mapSize.height = 1024;
+
+				directionalLight.shadow.bias = - 0.001;
+
+			}}
+
+			function animate() {{
+
+				requestAnimationFrame( animate );
+
+                for ( var i = 0; i < views.length; ++ i ) {{
+					views[ i ].controls.update();
+				}}
+
+				render();
+
+			}}
+
+
+			function render() {{
+				for ( var i = 0; i < views.length; ++ i ) {{
+					views[ i ].renderView();
+				}}
+
+			}}
+
+		</script>
+	</body>
+</html>

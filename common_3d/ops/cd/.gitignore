@@ -1,0 +1,9 @@
+# build files
+build
+# lib files
+chamfer_cuda.cpython*
+# dist
+dist
+chamfer_ext.egg-info
+# cache files
+__pycache__

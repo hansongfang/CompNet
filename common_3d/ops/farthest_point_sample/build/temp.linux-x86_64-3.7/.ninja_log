@@ -1,0 +1,3 @@
+# ninja log v5
+0	13400	1611310949973065255	/home/shanaf/Documents/projects/CompNet/common_3d/ops/farthest_point_sample/build/temp.linux-x86_64-3.7/src/farthest_point_sample.o	a3f72789ced3c54f
+0	14755	1611310951329047684	/home/shanaf/Documents/projects/CompNet/common_3d/ops/farthest_point_sample/build/temp.linux-x86_64-3.7/src/farthest_point_sample_kernel.o	f39dd561fea3c444
