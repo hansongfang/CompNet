@@ -1,0 +1,35 @@
+DATA:
+  PartRelation:
+    TRAIN:
+      IMG_DIR: "./data/train/chair"
+      PAIR_LIST: "train_chair_size_relation_pairs.pickle"
+      USE_WEIGHT: True
+    TEST:
+      IMG_DIR: "./data/test/bed"
+      PAIR_LIST: "test_bed_allpairs_size_relation.pickle"
+  NUM_WORKERS: 4
+MODEL:
+  CHOICE: 'SizeRelationNet'
+SCHEDULER:
+  TYPE: "StepLR"
+  MAX_EPOCH: 20
+  StepLR:
+    gamma: 0.9
+    step_size: 2
+SOLVER:
+  TYPE: "Adam"
+  BASE_LR: 0.001
+TRAIN:
+  BATCH_SIZE: 64
+  CHECKPOINT_PERIOD: 2
+  LOG_PERIOD: 10
+  VAL_PERIOD: 0
+TEST:
+  BATCH_SIZE: 1
+  WEIGHT: './outputs/SizeRelationNet/sizerelation_model.pth'
+  LOG_PERIOD: 1
+
+
+
+
+

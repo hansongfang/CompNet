@@ -1,0 +1,38 @@
+name: CompNet
+channels:
+  - pytorch
+  - defaults
+  - conda-forge
+dependencies:         # everything under this, installed by conda
+- python=3.7
+- pip
+- pytorch=1.5.1
+- torchvision
+- cudatoolkit=10.1
+- future
+- tensorboard
+- numpy
+- scipy
+- scikit-learn
+- scikit-image
+- h5py
+- cython
+- tqdm
+- natsort
+- tabulate
+- yacs
+- pytest
+- matplotlib
+- pip:
+    - open3d==0.11.1
+    - opencv-python==4.2.0.34
+    - loguru
+    - bs4
+    - einops
+    - seaborn
+    - torchgeometry
+    - kornia==0.3.2
+    - transforms3d
+    - silx
+    - progressbar
+    - tensorboardX

@@ -1,0 +1,34 @@
+DATA:
+  TOUCHPAIR:
+    TRAIN:
+      PAIR_LIST: "./data/train/chair/train_chair_equalsize_parallel_pairs.pickle"
+#  NParts:
+#    TEST:
+#      RENDER_DIR: "./data/test/bed"
+#      PAIR_LIST: "test_bed_equalsize.pickle"
+  NUM_WORKERS: 4
+MODEL:
+  CHOICE: 'GroupAxisLengthNet'
+SCHEDULER:
+  TYPE: "StepLR"
+  MAX_EPOCH: 40
+  StepLR:
+    gamma: 0.9
+    step_size: 2
+SOLVER:
+  TYPE: "Adam"
+  BASE_LR: 0.001
+TRAIN:
+  BATCH_SIZE: 64
+  CHECKPOINT_PERIOD: 5
+  LOG_PERIOD: 10
+  VAL_PERIOD: 0
+TEST:
+  BATCH_SIZE: 1
+  WEIGHT: './outputs/GroupAxisLengthNet/groupsize_model.pth'
+  LOG_PERIOD: 10
+
+
+
+
+

@@ -1,0 +1,41 @@
+DATA:
+  PART:
+    TRAIN:
+      IMG_DIR: './data/train/chair'
+      PART_LIST: 'train_chair_parts.pickle'
+      IMG_HEIGHT: 256
+      IMG_WIDTH: 256
+      MASK_PREFIX: 'partmask'
+    TEST:
+      IMG_DIR: './data/test/bed'
+      SHAPE_LIST: 'test_beds.txt'
+      IMG_HEIGHT: 256
+      IMG_WIDTH: 256
+  NUM_WORKERS: 4
+MODEL:
+  CHOICE: 'AxisLengthNet'
+  AxisLengthNet:
+    LOSS: 'L2'
+    METRIC: 'ChamferDist'
+SCHEDULER:
+  TYPE: "StepLR"
+  MAX_EPOCH: 80
+  StepLR:
+    gamma: 0.9
+    step_size: 2
+SOLVER:
+  TYPE: "Adam"
+  BASE_LR: 0.001
+TRAIN:
+  BATCH_SIZE: 64
+  CHECKPOINT_PERIOD: 5
+  LOG_PERIOD: 10
+  VAL_PERIOD: 0
+TEST:
+  BATCH_SIZE: 1
+  WEIGHT: './outputs/AxisLengthNet/size_model.pth'
+  LOG_PERIOD: 10
+
+
+
+
