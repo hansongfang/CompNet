@@ -12,7 +12,7 @@ Download the following data and unzip it to ```data/```.
 1. [Test with predicted part masks](https://drive.google.com/file/d/11vaWSWCWsTPmBxVsWy4L7Wo8rX1eNP6q/view?usp=sharing)
 
 ### Pre-trained CompNet
-Download the pretrained models and unzip to ```outputs/```.
+Download the [pretrained models](https://drive.google.com/file/d/1BBQrXD91OXHJ3lPfuEbbxPXXfyeI104h/view?usp=sharing) and unzip to ```./```.
 
 The above link contains pretrained models including rotation module, axis length module, joint module.
 
