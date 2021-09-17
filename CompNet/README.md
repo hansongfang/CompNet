@@ -7,9 +7,9 @@ conda activate CompNet
 ### Data
 Download the following data and unzip it to ```data/```.
 
-1. [Train](https://drive.google.com/drive/u/0/folders/1VqCC9p5GkrBZmknkBrzU7cXZjFpxRiOQ)
-1. [Test with ground truth part masks](https://drive.google.com/drive/u/0/folders/1VqCC9p5GkrBZmknkBrzU7cXZjFpxRiOQ)
-1. [Test with predicted part masks](https://drive.google.com/drive/u/0/folders/1VqCC9p5GkrBZmknkBrzU7cXZjFpxRiOQ)
+1. [Train](https://drive.google.com/file/d/18LCdtMjqSgYGuBWiC2XbXdH-eKGuj88v/view?usp=sharing)
+1. [Test with ground truth part masks](https://drive.google.com/file/d/1t9v1gkVOWSbqywoJfhFMkTEV8Js6-hTD/view?usp=sharing)
+1. [Test with predicted part masks](https://drive.google.com/file/d/11vaWSWCWsTPmBxVsWy4L7Wo8rX1eNP6q/view?usp=sharing)
 
 ### Pre-trained CompNet
 Download the pretrained models and unzip to ```outputs/```.

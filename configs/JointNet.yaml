@@ -3,7 +3,7 @@ DATA:
     TRAIN:
       PAIR_LIST: "./data/train/chair/train_chair_adjacent_pairs.pickle"
     TEST:
-      PAIR_LIST: "./data/test/bed/test_beds_adjacent_pairs.pickle"
+      PAIR_LIST: "./data/test/bed/test_bed_adjacent_pairs.pickle"
       IMG_HEIGHT: 256
       IMG_WIDTH: 256
   NUM_WORKERS: 4
