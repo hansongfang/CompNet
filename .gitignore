@@ -1,2 +1,24 @@
-.idea/
+# compilation and distribution
+__pycache__
+_ext
+*.pyc
+*.pyd
+*.so
+*.egg-info/
+build/
+dist/
+wheels/
+
+# Editor temporaries
+*.swn
+*.swo
+*.swp
+*~
+
+# editor settings
+.idea
+.vscode
+
+# project dirs
 outputs/
+data/

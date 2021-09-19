@@ -1,0 +1,54 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  WEIGHTS: "detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl"
+  MASK_ON: True
+  BACKBONE:
+    NAME: "build_resnet_fpn_backbone"
+    FREEZE_AT: 2
+  RESNETS:
+    OUT_FEATURES: ["res2", "res3", "res4", "res5"]
+    NORM: "FrozenBN"
+  FPN:
+    IN_FEATURES: ["res2", "res3", "res4", "res5"]
+  ANCHOR_GENERATOR:
+    SIZES: [[32], [64], [128], [256], [512]]  # One size for each in feature map
+    ASPECT_RATIOS: [[0.25, 0.5, 1.0, 2.0, 4.0]]  # Different aspect ratios (same for all in feature maps)
+  RPN:
+    IN_FEATURES: ["p2", "p3", "p4", "p5", "p6"]
+    IOU_THRESHOLDS: [0.3, 0.7]
+    PRE_NMS_TOPK_TRAIN: 2000  # Per FPN level
+    PRE_NMS_TOPK_TEST: 1000  # Per FPN level
+    POST_NMS_TOPK_TRAIN: 1000
+    POST_NMS_TOPK_TEST: 1000
+  ROI_HEADS:
+    NAME: "StandardROIHeads"
+    IN_FEATURES: ["p2", "p3", "p4", "p5"]
+  ROI_BOX_HEAD:
+    NAME: "FastRCNNConvFCHead"
+    NUM_FC: 2
+    POOLER_RESOLUTION: 7
+  ROI_MASK_HEAD:
+    NAME: "MaskRCNNConvUpsampleHead"
+    NUM_CONV: 4
+    POOLER_RESOLUTION: 14
+DATASETS:
+  TRAIN: ("chair_train",)
+  TEST: ("chair_test",)
+SOLVER:
+  IMS_PER_BATCH: 2
+  BASE_LR: 0.005
+  STEPS: (48000, 64000)
+  MAX_ITER: 80000
+  WARMUP_ITERS: 1000
+  CHECKPOINT_PERIOD: 1000
+  #  IMS_PER_BATCH: 8
+  #  BASE_LR: 0.01
+  #  STEPS: (24000, 32000)
+  #  MAX_ITER: 40000
+  #  WARMUP_ITERS: 1000
+  #  CHECKPOINT_PERIOD: 1000
+INPUT:
+  MASK_FORMAT: "bitmask"
+VERSION: 2
+OUTPUT_DIR: "./output/mask_rcnn_R_50_FPN_chair"
+VIS_PERIOD: 500
