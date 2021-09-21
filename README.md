@@ -40,6 +40,6 @@ Follow instructions in [CompNet README](https://github.com/hansongfang/CompNet/b
 MIT Licence
 
 ## Updates
-
+* [Sep 21, 2021] Release part segmentation prediction code.
 * [Sep 16, 2021] Preliminary version of Data and Code released.
 
