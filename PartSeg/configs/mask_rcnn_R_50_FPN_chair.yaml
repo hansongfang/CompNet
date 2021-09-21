@@ -35,7 +35,7 @@ DATASETS:
   TRAIN: ("chair_train",)
   TEST: ("chair_test",)
 SOLVER:
-  IMS_PER_BATCH: 2
+  IMS_PER_BATCH: 4
   BASE_LR: 0.005
   STEPS: (48000, 64000)
   MAX_ITER: 80000

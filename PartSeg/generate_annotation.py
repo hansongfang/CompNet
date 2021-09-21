@@ -16,15 +16,8 @@ from detectron2.structures.boxes import BoxMode
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--root-dir", type=str, help="root directory", default="datasets/chair/images"
-    )
-    parser.add_argument(
-        "--output-path",
-        type=str,
-        help="path to output",
-        default="datasets/chair/annotations/instances.pkl",
-    )
+    parser.add_argument("--root-dir", type=str, help="root directory", required=True)
+    parser.add_argument("--output-path", type=str, help="path to output", required=True)
     parser.add_argument("--start", type=int, default=0)
     parser.add_argument("--end", type=int, default=None)
     parser.add_argument("--height", type=int, default=256)
@@ -48,6 +41,7 @@ def main():
         image_ids = [x.strip() for x in image_ids]
     else:
         image_ids = os.listdir(root_dir)
+        image_ids = [x for x in image_ids if os.path.isdir(os.path.join(root_dir, x))]
 
     image_ids = sorted(image_ids)
     if args.random:
