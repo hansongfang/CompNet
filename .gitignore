@@ -1,2 +1,9 @@
 .idea/
 outputs/
+
+.ipynb_checkpoints/**
+**/__pycache__/**
+core.*
+data/**
+
+common_3d/**
