@@ -21,3 +21,4 @@ Here are some descriptions of each section:
 6. Sample pcd and Calculated emd between pred and gt:
     * Contain code to sample point cloud from gt and different models and compute the EMD between the sample PCD and the GT PCD.
 
+Each branch may contain the code of the algorithm and the main code to run on the data. You can refer to the main code to prepare your data and build similar directory structure.
