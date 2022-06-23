@@ -1,45 +1,23 @@
 # Compositionally Generalizable 3D Structure Prediction
 
-[comment]: <> (## Introduction)
-In this work, We bring in the concept of compositional generalizability and factorizes the 3D shape reconstruction problem into proper sub-problems, each of which is tackled by a carefully designed neural sub-module with generalizability guarantee. Experiments on PartNet show that we achieve superior performance than baseline methods, which validates our problem factorization and network designs. [Link](https://arxiv.org/abs/2012.02493) to our paper. 
+## Branch Description:
+This branch contains some evaluation & experiment code for this project. Most code are contained in a notebook `experiments.ipynb` with proper titles and separations to divide each part of the experiments. 
 
-[comment]: <> (![Overview]&#40;./doc/teaser.jpg&#41;)
+Here are some descriptions of each section:
 
-Check our YouTube videos below for more details.
-[![PaperVideo](https://i.ytimg.com/vi_webp/a1Mghtz3erM/maxresdefault.webp)](https://youtu.be/a1Mghtz3erM) 
-
-If you find this project useful for your research, please cite: 
-
-```
-@article{han2020compositionally,
-author = {Han, Songfang and Gu, Jiayuan and Mo, Kaichun and Yi, Li and Hu, Siyu and Chen, Xuejin and Su, Hao},
-title = {{C}ompositionally {G}eneralizable 3{D} {S}tructure {P}rediction},
-journal = {arXiv preprint},
-year = {2020}}
-```
-
-## How to use
-
-### Installation
-* Check out the source code 
-
-    ```git clone https://github.com/hansongfang/CompNet.git && cd CompNet```
-* Install dependencies 
-
-    ```conda env create -f environment.yml  && conda activate CompNet```
-* Compile CUDA extensions 
-
-    ```cd common_3d && bash compile.sh```
-
-## Training and evaluating 
-
-Follow instructions in [CompNet README](https://github.com/hansongfang/CompNet/blob/main/CompNet/README.md)
-
-## License
-
-MIT Licence
-
-## Updates
-
-* [Sep 16, 2021] Preliminary version of Data and Code released.
+1. Check each kind of GT and output file: 
+    * just visualize all posible files to use
+2. Visualize/debug HIS result on gt json, gt visible json, and pred json:
+    * Compare the tree structure in the json file predicted by HIS with GT tree structure.
+3. HIS with no hierarchy:
+    * Test our new part matching metric that is similar to HIS algorithm but without the part hierarchy.
+4. Part bbox IoU:
+    * Test another part matching metric: compute the average of all part bbox IoU in world space after Hungarian matching using the part IoU as the metrics.
+    * Under this approach, we tried: linear_assignment_iou, linear_assignment_iou_weighed_by_vol,linear_assignment_iou_plus_unmatched_max_iou, linear_assignment_iou_plus_unmatched_zero, and chamfer_like_iou
+5. Part prediction F1 Score:
+    * Test another part matching metric: Compute the F1 score of part mataching with a chamfer dist threshold as the passing criteria and the Hungarian matching using the Chamfer dist in canonical space
+    * Under this approach, we tried: ave_part_min_chamfer_dist, ave_part_matched_chamfer_dist, part_pred_f1, matched_part_pred_f1
+    * Contain code to plot multiple 3d graphs at once
+6. Sample pcd and Calculated emd between pred and gt:
+    * Contain code to sample point cloud from gt and different models and compute the EMD between the sample PCD and the GT PCD.
 
