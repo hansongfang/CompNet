@@ -49,7 +49,7 @@ python predict_net.py --config-file configs/mask_rcnn_R_50_FPN_chair.yaml --root
 ### Pretrained models
 
 We also provide the pretrained model trained on chairs only.
-Download the [pretrained model]() and unzip to `./`.
+Download the [pretrained model](https://drive.google.com/drive/folders/122kHzc01bF2pPMzMbP9xZWo0HhOgJd37?usp=share_link) and unzip to `./`.
 
 To predict with pretrained weights:
 ```bash
